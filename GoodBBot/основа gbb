@@ -1,0 +1,51 @@
+import telebot 
+from telebot import types
+
+Token = '7294996329:AAHPd3ILr2GfbzGHZZ5O77EZbNACKqrd7nA'
+bot = telebot.TeleBot(Token)
+
+
+@bot.message_handler(commands = ['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn_1 = types.KeyboardButton("Что это за бот?")
+    markup.add(btn_1)
+    bot.send_message(message.from_user.id, 'Добро пожаловать в бота памяти', reply_markup=markup)
+
+@bot.message_handler(content_types=['text'])
+
+def get_text_messages(message):
+    bal = 2
+    if message.text == "Что это за бот?":
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn_fras = types.KeyboardButton('Воспаминания')
+        btn_crt = types.KeyboardButton('Оставить след')
+        bot.send_message(message.from_user.id, 'В этом боте хранятся все высказывания и слова учиников этого курса', reply_markup=markup)
+        markup.add(btn_fras, btn_crt)
+
+    if message.text == 'Воспаминания':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn_back = types.KeyboardButton('Назад')
+        bot.send_message(message.from_user.id, lst, reply_markup=markup)
+        markup.add(btn_back)
+    
+    if message.text == 'Оставить след':
+        lst_name = []
+        lst_fras = []
+        lst = {
+            lst_name:lst_fras
+        }
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn_back = types.KeyboardButton('Назад')
+        bot.send_message(message.from_user.id, 'введи свое имя или свой юз в тг', reply_markup=markup)
+        
+        @bot.message_handler(content_types=['text'])
+        def get_text_messages(name):
+            lst_name.append(name)
+            bot.send_message(message.from_user.id, 'Теперь введи своё воспоминание о курсе', reply_markup=markup)
+
+        
+        def get_text_messages(fras):
+            lst_fras.append(fras)
+            bot.send_message(message.from_user.id, 'Твоё воспоминание о курсе добавлено', reply_markup=markup)
+            return btn_back
